@@ -293,6 +293,377 @@
     }
   }
 
+  /* === EPIC ANIMATION === */
+  .epic-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  /* Aurora blobs */
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    mix-blend-mode: screen;
+    opacity: 0.65;
+    animation: aurora-drift var(--dur, 18s) ease-in-out infinite;
+  }
+  .aurora.a1 {
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(
+      circle,
+      hsl(170 100% 50% / 0.9),
+      transparent 70%
+    );
+    top: -10%;
+    left: -10%;
+    --dur: 22s;
+  }
+  .aurora.a2 {
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(
+      circle,
+      hsl(290 100% 60% / 0.9),
+      transparent 70%
+    );
+    bottom: -15%;
+    right: -5%;
+    --dur: 26s;
+    animation-delay: -6s;
+  }
+  .aurora.a3 {
+    width: 380px;
+    height: 380px;
+    background: radial-gradient(
+      circle,
+      hsl(200 100% 55% / 0.85),
+      transparent 70%
+    );
+    top: 40%;
+    right: 30%;
+    --dur: 20s;
+    animation-delay: -12s;
+  }
+  @keyframes aurora-drift {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(80px, -50px) scale(1.15);
+    }
+    66% {
+      transform: translate(-60px, 70px) scale(0.9);
+    }
+  }
+
+  /* Orbital rings */
+  .orbit-rings {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 900px;
+    opacity: 0.5;
+  }
+  .orbit-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px dashed hsl(170 100% 50% / 0.3);
+    border-radius: 50%;
+    animation: orbit-spin var(--rd, 40s) linear infinite;
+  }
+  .orbit-ring.r2 {
+    inset: 60px;
+    border-color: hsl(290 100% 60% / 0.25);
+    animation-direction: reverse;
+    --rd: 30s;
+  }
+  .orbit-ring.r3 {
+    inset: 140px;
+    border-color: hsl(170 100% 50% / 0.2);
+    border-style: dotted;
+    --rd: 50s;
+  }
+  @keyframes orbit-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Orbiting nodes on ring */
+  .orbit-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    animation: orbit-spin var(--rd, 18s) linear infinite;
+  }
+  .orbit-node::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--c, hsl(170 100% 50%));
+    box-shadow:
+      0 0 20px 4px var(--c, hsl(170 100% 50%)),
+      0 0 40px 8px var(--c, hsl(170 100% 50% / 0.5));
+    transform: translate(var(--r, 200px), -7px);
+    animation: node-pulse 2s ease-in-out infinite;
+  }
+  @keyframes node-pulse {
+    0%,
+    100% {
+      transform: translate(var(--r, 200px), -7px) scale(1);
+    }
+    50% {
+      transform: translate(var(--r, 200px), -7px) scale(1.5);
+    }
+  }
+
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--c, #fff);
+    box-shadow: 0 0 8px 2px var(--c, #fff);
+    animation: particle-float var(--dur, 10s) linear infinite;
+    animation-delay: var(--delay, 0s);
+    left: var(--x, 50%);
+    bottom: -10px;
+    opacity: 0;
+  }
+  @keyframes particle-float {
+    0% {
+      transform: translate(0, 0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--dx, 40px), -110vh);
+      opacity: 0;
+    }
+  }
+
+  /* Scan beam */
+  .scan-beam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(170 100% 50% / 0.9) 20%,
+      #fff 50%,
+      hsl(290 100% 60% / 0.9) 80%,
+      transparent
+    );
+    filter: blur(1px) drop-shadow(0 0 10px hsl(170 100% 50%));
+    animation: scan-move 5s linear infinite;
+  }
+  @keyframes scan-move {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    92% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+
+  /* Lightning bolts */
+  .bolt {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 30vh;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      hsl(190 100% 70% / 0.9),
+      #fff 50%,
+      hsl(290 100% 70% / 0.9),
+      transparent
+    );
+    filter: blur(0.5px) drop-shadow(0 0 8px hsl(200 100% 60%));
+    left: var(--x, 50%);
+    animation: bolt-flash var(--dur, 4s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+    transform-origin: top;
+  }
+  @keyframes bolt-flash {
+    0%,
+    85%,
+    100% {
+      opacity: 0;
+      transform: scaleY(0.2);
+    }
+    88% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+    92% {
+      opacity: 0.4;
+      transform: scaleY(0.8);
+    }
+    94% {
+      opacity: 1;
+      transform: scaleY(1.1);
+    }
+  }
+
+  /* Hexagon grid pulse */
+  .hex-pulse {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(
+        30deg,
+        hsl(170 100% 50% / 0.08) 12%,
+        transparent 12.5%,
+        transparent 87%,
+        hsl(170 100% 50% / 0.08) 87.5%,
+        hsl(170 100% 50% / 0.08)
+      ),
+      linear-gradient(
+        150deg,
+        hsl(290 100% 60% / 0.08) 12%,
+        transparent 12.5%,
+        transparent 87%,
+        hsl(290 100% 60% / 0.08) 87.5%,
+        hsl(290 100% 60% / 0.08)
+      ),
+      linear-gradient(
+        30deg,
+        hsl(170 100% 50% / 0.08) 12%,
+        transparent 12.5%,
+        transparent 87%,
+        hsl(170 100% 50% / 0.08) 87.5%,
+        hsl(170 100% 50% / 0.08)
+      ),
+      linear-gradient(
+        150deg,
+        hsl(290 100% 60% / 0.08) 12%,
+        transparent 12.5%,
+        transparent 87%,
+        hsl(290 100% 60% / 0.08) 87.5%,
+        hsl(290 100% 60% / 0.08)
+      );
+    background-size: 50px 87px;
+    background-position:
+      0 0,
+      0 0,
+      25px 43.5px,
+      25px 43.5px;
+    animation: hex-shift 18s linear infinite;
+  }
+  @keyframes hex-shift {
+    from {
+      background-position:
+        0 0,
+        0 0,
+        25px 43.5px,
+        25px 43.5px;
+    }
+    to {
+      background-position:
+        50px 87px,
+        50px 87px,
+        75px 130.5px,
+        75px 130.5px;
+    }
+  }
+
+  /* Energy core in the center-ish */
+  .energy-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+      0 0 20px 4px hsl(170 100% 50%),
+      0 0 50px 12px hsl(170 100% 50% / 0.6),
+      0 0 100px 25px hsl(290 100% 60% / 0.4);
+    animation: core-pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes core-pulse {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0.85;
+    }
+  }
+
+  /* Shockwave rings */
+  .shockwave {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 2px solid hsl(170 100% 50%);
+    border-radius: 50%;
+    animation: shockwave-expand 3s ease-out infinite;
+    animation-delay: var(--delay, 0s);
+    opacity: 0;
+  }
+  .shockwave.s2 {
+    border-color: hsl(290 100% 60%);
+  }
+  @keyframes shockwave-expand {
+    0% {
+      width: 40px;
+      height: 40px;
+      margin: -20px 0 0 -20px;
+      opacity: 1;
+      border-width: 2px;
+    }
+    100% {
+      width: 900px;
+      height: 900px;
+      margin: -450px 0 0 -450px;
+      opacity: 0;
+      border-width: 0.5px;
+    }
+  }
+
   @keyframes fade-up {
     from {
       opacity: 0;

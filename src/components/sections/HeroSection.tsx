@@ -41,6 +41,61 @@ const HeroSection = ({ spawnSmoke }: HeroSectionProps) => {
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
+        {/* EPIC ANIMATION LAYER */}
+        <div className="epic-layer">
+          <div className="hex-pulse" />
+          <div className="aurora a1" />
+          <div className="aurora a2" />
+          <div className="aurora a3" />
+
+          <div className="orbit-rings">
+            <div className="orbit-ring r1" />
+            <div className="orbit-ring r2" />
+            <div className="orbit-ring r3" />
+            <div className="orbit-node" style={{ ['--r' as string]: '450px', ['--rd' as string]: '22s', ['--c' as string]: 'hsl(170 100% 50%)' } as React.CSSProperties} />
+            <div className="orbit-node" style={{ ['--r' as string]: '390px', ['--rd' as string]: '18s', ['--c' as string]: 'hsl(290 100% 60%)', animationDirection: 'reverse' } as React.CSSProperties} />
+            <div className="orbit-node" style={{ ['--r' as string]: '310px', ['--rd' as string]: '28s', ['--c' as string]: 'hsl(190 100% 60%)' } as React.CSSProperties} />
+            <div className="orbit-node" style={{ ['--r' as string]: '450px', ['--rd' as string]: '22s', ['--c' as string]: 'hsl(320 100% 65%)', animationDelay: '-11s' } as React.CSSProperties} />
+          </div>
+
+          <div className="energy-core" />
+          <div className="shockwave" style={{ ['--delay' as string]: '0s' } as React.CSSProperties} />
+          <div className="shockwave s2" style={{ ['--delay' as string]: '1s' } as React.CSSProperties} />
+          <div className="shockwave" style={{ ['--delay' as string]: '2s' } as React.CSSProperties} />
+
+          {/* Floating particles */}
+          {[
+            { x: '5%', dx: '50px', dur: '12s', delay: '0s', c: 'hsl(170 100% 60%)' },
+            { x: '12%', dx: '-30px', dur: '14s', delay: '2s', c: 'hsl(290 100% 70%)' },
+            { x: '22%', dx: '70px', dur: '11s', delay: '0.5s', c: '#fff' },
+            { x: '30%', dx: '-60px', dur: '15s', delay: '3s', c: 'hsl(200 100% 65%)' },
+            { x: '38%', dx: '40px', dur: '13s', delay: '1s', c: 'hsl(170 100% 60%)' },
+            { x: '48%', dx: '-20px', dur: '10s', delay: '4s', c: 'hsl(320 100% 70%)' },
+            { x: '56%', dx: '60px', dur: '14s', delay: '2.5s', c: '#fff' },
+            { x: '65%', dx: '-50px', dur: '12s', delay: '0.8s', c: 'hsl(290 100% 70%)' },
+            { x: '73%', dx: '30px', dur: '13s', delay: '3.5s', c: 'hsl(170 100% 60%)' },
+            { x: '82%', dx: '-40px', dur: '11s', delay: '1.5s', c: 'hsl(200 100% 65%)' },
+            { x: '90%', dx: '55px', dur: '15s', delay: '4.5s', c: 'hsl(320 100% 70%)' },
+            { x: '96%', dx: '-25px', dur: '12s', delay: '0.3s', c: '#fff' },
+          ].map((p, i) => (
+            <div key={i} className="particle" style={{
+              ['--x' as string]: p.x,
+              ['--dx' as string]: p.dx,
+              ['--dur' as string]: p.dur,
+              ['--delay' as string]: p.delay,
+              ['--c' as string]: p.c,
+            } as React.CSSProperties} />
+          ))}
+
+          {/* Lightning bolts */}
+          <div className="bolt" style={{ ['--x' as string]: '18%', ['--dur' as string]: '5s', ['--delay' as string]: '0s' } as React.CSSProperties} />
+          <div className="bolt" style={{ ['--x' as string]: '42%', ['--dur' as string]: '7s', ['--delay' as string]: '2s' } as React.CSSProperties} />
+          <div className="bolt" style={{ ['--x' as string]: '68%', ['--dur' as string]: '6s', ['--delay' as string]: '4s' } as React.CSSProperties} />
+          <div className="bolt" style={{ ['--x' as string]: '88%', ['--dur' as string]: '8s', ['--delay' as string]: '1s' } as React.CSSProperties} />
+
+          <div className="scan-beam" />
+        </div>
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 space-y-8 animate-fade-up">
