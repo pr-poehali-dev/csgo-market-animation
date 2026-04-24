@@ -40,11 +40,11 @@ const Index = () => {
             </div>
           </a>
           <div className="hidden md:flex items-center gap-8 font-display text-sm uppercase tracking-widest">
-            <a href="#market" className="hover:text-neon-cyan transition-colors">Купить</a>
-            <a href="#sell" className="hover:text-neon-magenta transition-colors">Продать</a>
-            <a href="#history" className="hover:text-neon-cyan transition-colors">История</a>
-            <a href="#support" className="hover:text-neon-cyan transition-colors">Поддержка</a>
-            <a href="#faq" className="hover:text-neon-cyan transition-colors">FAQ</a>
+            <a href="#market" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">Купить</a>
+            <a href="#sell" target="_blank" rel="noopener noreferrer" className="hover:text-neon-magenta transition-colors">Продать</a>
+            <a href="#history" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">История</a>
+            <a href="#support" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">Поддержка</a>
+            <a href="#faq" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">FAQ</a>
           </div>
           <Button className="bg-primary text-background hover:bg-primary/90 font-display uppercase tracking-wider clip-corner neon-glow-cyan">
             <Icon name="LogIn" size={16} className="mr-2" />
