@@ -664,6 +664,77 @@
     }
   }
 
+  /* Cursor glow */
+  .cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    margin: -200px 0 0 -200px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      hsl(170 100% 50% / 0.35) 0%,
+      hsl(290 100% 60% / 0.18) 40%,
+      transparent 70%
+    );
+    filter: blur(20px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.08s linear;
+    will-change: transform;
+  }
+  .cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    margin: -6px 0 0 -6px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+      0 0 12px 2px hsl(170 100% 55%),
+      0 0 28px 6px hsl(290 100% 60% / 0.7);
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.05s linear;
+    will-change: transform;
+    mix-blend-mode: screen;
+  }
+  .cursor-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    margin: -5px 0 0 -5px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      hsl(170 100% 60%) 0%,
+      hsl(290 100% 60% / 0.6) 50%,
+      transparent 70%
+    );
+    filter: blur(2px);
+    pointer-events: none;
+    z-index: 9997;
+    mix-blend-mode: screen;
+    animation: trail-fade 0.9s ease-out forwards;
+  }
+  @keyframes trail-fade {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+  }
+
   @keyframes fade-up {
     from {
       opacity: 0;

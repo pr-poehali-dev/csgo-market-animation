@@ -3,6 +3,7 @@ import HeroSection from '@/components/sections/HeroSection';
 import MarketSection from '@/components/sections/MarketSection';
 import HistorySupportSection from '@/components/sections/HistorySupportSection';
 import FaqFooterSection from '@/components/sections/FaqFooterSection';
+import CursorGlow from '@/components/CursorGlow';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
@@ -47,6 +48,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen text-foreground">
+      <CursorGlow />
       <HeroSection spawnSmoke={spawnSmoke} />
       <MarketSection activeTab={activeTab} setActiveTab={setActiveTab} />
       <HistorySupportSection />
