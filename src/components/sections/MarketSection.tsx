@@ -1,14 +1,20 @@
+import { useState } from 'react';
 import Icon from '@/components/ui/icon';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const skins = [
-  { name: 'AWP | Dragon Lore', rarity: 'Covert', wear: 'Factory New', price: '245 890', float: '0.007', color: 'from-amber-500 to-red-600' },
-  { name: 'M4A4 | Howl', rarity: 'Contraband', wear: 'Minimal Wear', price: '189 450', float: '0.089', color: 'from-orange-400 to-pink-600' },
-  { name: 'Karambit | Fade', rarity: 'Covert ★', wear: 'Factory New', price: '312 500', float: '0.012', color: 'from-fuchsia-500 to-cyan-400' },
-  { name: 'AK-47 | Wild Lotus', rarity: 'Covert', wear: 'Factory New', price: '178 200', float: '0.031', color: 'from-emerald-400 to-teal-600' },
-  { name: 'Butterfly | Doppler', rarity: 'Covert ★', wear: 'Factory New', price: '98 700', float: '0.022', color: 'from-violet-500 to-blue-600' },
-  { name: 'Desert Eagle | Blaze', rarity: 'Classified', wear: 'Factory New', price: '24 800', float: '0.018', color: 'from-orange-500 to-yellow-400' },
+  { name: 'AWP | Dragon Lore', exterior: 'Factory New', price: 245890, float: 0.007, rarity: 'covert', trend: '+2.4%', up: true, bg: 'from-amber-600 to-red-800' },
+  { name: 'M4A4 | Howl', exterior: 'Minimal Wear', price: 189450, float: 0.089, rarity: 'rare', trend: '+5.1%', up: true, bg: 'from-orange-500 to-rose-700' },
+  { name: '★ Karambit | Fade', exterior: 'Factory New', price: 312500, float: 0.012, rarity: 'rare', trend: '+0.8%', up: true, bg: 'from-fuchsia-500 to-cyan-500' },
+  { name: 'AK-47 | Wild Lotus', exterior: 'Factory New', price: 178200, float: 0.031, rarity: 'covert', trend: '-1.2%', up: false, bg: 'from-emerald-500 to-teal-700' },
+  { name: '★ Butterfly | Doppler', exterior: 'Factory New', price: 98700, float: 0.022, rarity: 'rare', trend: '+3.3%', up: true, bg: 'from-violet-500 to-blue-700' },
+  { name: 'Desert Eagle | Blaze', exterior: 'Factory New', price: 24800, float: 0.018, rarity: 'classified', trend: '+0.2%', up: true, bg: 'from-orange-500 to-yellow-500' },
+  { name: 'USP-S | Kill Confirmed', exterior: 'Minimal Wear', price: 8640, float: 0.094, rarity: 'covert', trend: '-0.5%', up: false, bg: 'from-slate-700 to-slate-900' },
+  { name: 'Glock-18 | Fade', exterior: 'Factory New', price: 5320, float: 0.014, rarity: 'restricted', trend: '+1.8%', up: true, bg: 'from-pink-500 to-amber-500' },
+  { name: 'M4A1-S | Hyper Beast', exterior: 'Factory New', price: 3420, float: 0.021, rarity: 'covert', trend: '+0.4%', up: true, bg: 'from-cyan-400 to-fuchsia-600' },
+  { name: 'AWP | Asiimov', exterior: 'Field-Tested', price: 4180, float: 0.234, rarity: 'covert', trend: '-0.9%', up: false, bg: 'from-orange-400 to-neutral-800' },
+  { name: 'AK-47 | Redline', exterior: 'Field-Tested', price: 1290, float: 0.189, rarity: 'classified', trend: '+2.1%', up: true, bg: 'from-red-600 to-neutral-900' },
+  { name: 'P250 | Asiimov', exterior: 'Factory New', price: 820, float: 0.039, rarity: 'restricted', trend: '+0.6%', up: true, bg: 'from-orange-500 to-neutral-700' },
 ];
 
 interface MarketSectionProps {
@@ -17,79 +23,217 @@ interface MarketSectionProps {
 }
 
 const MarketSection = ({ activeTab, setActiveTab }: MarketSectionProps) => {
-  return (
-    <section id="market" className="relative py-24 border-t border-border">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-neon-cyan mb-3">// 01 · Маркет</div>
-            <h2 className="font-display font-bold text-5xl md:text-7xl uppercase">
-              Торговая<br/>
-              <span className="text-neon-cyan neon-text-glow">площадка</span>
-            </h2>
-          </div>
+  const [priceMin, setPriceMin] = useState('');
+  const [priceMax, setPriceMax] = useState('');
+  const [sort, setSort] = useState('popular');
 
-          <div id="sell" className="flex gap-2 p-1 border border-border bg-card/50 clip-corner">
+  return (
+    <section id="market" className="relative py-6">
+      <div className="container mx-auto px-6">
+        <div id="sell" className="flex items-center justify-between mb-4 flex-wrap gap-3">
+          <div className="inline-flex bg-muted rounded p-0.5">
             <button
               onClick={() => setActiveTab('buy')}
-              className={`px-8 py-3 font-display uppercase tracking-widest text-sm transition-all clip-corner ${
-                activeTab === 'buy' ? 'bg-primary text-background neon-glow-cyan' : 'text-muted-foreground hover:text-foreground'
+              className={`px-4 h-8 text-sm font-medium rounded transition-colors ${
+                activeTab === 'buy' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Icon name="ShoppingCart" size={16} className="inline mr-2" />
               Купить
             </button>
             <button
               onClick={() => setActiveTab('sell')}
-              className={`px-8 py-3 font-display uppercase tracking-widest text-sm transition-all clip-corner ${
-                activeTab === 'sell' ? 'bg-secondary text-background neon-glow-magenta' : 'text-muted-foreground hover:text-foreground'
+              className={`px-4 h-8 text-sm font-medium rounded transition-colors ${
+                activeTab === 'sell' ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              <Icon name="Tag" size={16} className="inline mr-2" />
               Продать
             </button>
           </div>
-        </div>
 
-        <div className="flex flex-wrap gap-3 mb-8">
-          <div className="relative flex-1 min-w-[260px]">
-            <Icon name="Search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Поиск скина, оружия, коллекции..." className="pl-12 h-12 bg-card border-border font-mono text-sm" />
+          <div className="flex items-center gap-3 text-sm">
+            <span className="text-muted-foreground">Сортировка:</span>
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="h-8 px-2 rounded bg-muted border border-border text-sm focus:outline-none focus:border-primary-orange"
+            >
+              <option value="popular">Популярные</option>
+              <option value="cheap">Сначала дешёвые</option>
+              <option value="expensive">Сначала дорогие</option>
+              <option value="float">По float</option>
+              <option value="new">Новые</option>
+            </select>
           </div>
-          {['Все', 'Ножи', 'Перчатки', 'Винтовки', 'Пистолеты'].map((f, i) => (
-            <button key={i} className={`px-5 h-12 font-display uppercase tracking-widest text-xs border clip-corner transition-all ${
-              i === 0 ? 'border-primary text-neon-cyan bg-primary/5' : 'border-border text-muted-foreground hover:border-primary/50 hover:text-foreground'
-            }`}>
-              {f}
-            </button>
-          ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {skins.map((s, i) => (
-            <div key={i} className="group relative animate-fade-up" style={{ animationDelay: `${i * 0.08}s` }}>
-              <div className="absolute -inset-px bg-gradient-to-br from-primary/0 via-primary/0 to-secondary/0 group-hover:from-primary/40 group-hover:to-secondary/40 transition-all duration-500 clip-corner" />
-              <div className="relative clip-corner bg-card border border-border p-5 hover:border-primary/60 transition-all">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-neon-magenta">{s.rarity}</span>
-                  <Icon name="Heart" size={16} className="text-muted-foreground hover:text-secondary cursor-pointer transition-colors" />
-                </div>
-                <div className={`aspect-video bg-gradient-to-br ${s.color} clip-corner mb-4 relative overflow-hidden flex items-center justify-center group-hover:scale-[1.02] transition-transform`}>
-                  <Icon name="Crosshair" size={56} className="text-white/90 drop-shadow-xl" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute bottom-2 left-3 font-mono text-[10px] uppercase tracking-widest text-white/80">float · {s.float}</div>
-                </div>
-                <div className="font-display text-base uppercase tracking-wide mb-1">{s.name}</div>
-                <div className="font-mono text-xs text-muted-foreground mb-4">{s.wear}</div>
-                <div className="flex items-center justify-between pt-4 border-t border-border">
-                  <span className="font-display text-2xl text-neon-cyan neon-text-glow">{s.price} ₽</span>
-                  <Button size="sm" className={`${activeTab === 'buy' ? 'bg-primary hover:bg-primary/90' : 'bg-secondary hover:bg-secondary/90'} text-background font-display uppercase tracking-widest clip-corner`}>
-                    {activeTab === 'buy' ? 'Купить' : 'Продать'}
-                  </Button>
-                </div>
+        <div className="grid lg:grid-cols-[260px_1fr] gap-4">
+          <aside className="space-y-4 lg:sticky lg:top-[145px] self-start">
+            <div className="bg-card border border-border rounded p-4">
+              <h3 className="text-sm font-semibold mb-3">Цена, ₽</h3>
+              <div className="flex gap-2 mb-3">
+                <input
+                  value={priceMin}
+                  onChange={(e) => setPriceMin(e.target.value)}
+                  placeholder="от"
+                  className="w-full h-8 px-2 rounded bg-muted border border-border text-sm focus:outline-none focus:border-primary-orange"
+                />
+                <input
+                  value={priceMax}
+                  onChange={(e) => setPriceMax(e.target.value)}
+                  placeholder="до"
+                  className="w-full h-8 px-2 rounded bg-muted border border-border text-sm focus:outline-none focus:border-primary-orange"
+                />
+              </div>
+              <div className="flex gap-1 flex-wrap">
+                {['до 500', '500–5k', '5k–50k', '50k+'].map((p, i) => (
+                  <button key={i} className="px-2 h-6 text-xs rounded bg-muted hover:bg-border transition-colors">
+                    {p}
+                  </button>
+                ))}
               </div>
             </div>
-          ))}
+
+            <div className="bg-card border border-border rounded p-4">
+              <h3 className="text-sm font-semibold mb-3">Редкость</h3>
+              <div className="space-y-2">
+                {[
+                  { label: 'Covert', color: 'covert', count: 247 },
+                  { label: 'Classified', color: 'classified', count: 412 },
+                  { label: 'Restricted', color: 'restricted', count: 896 },
+                  { label: 'Mil-Spec', color: 'milspec', count: 1247 },
+                  { label: 'Редкий ★', color: 'rare', count: 89 },
+                ].map((r, i) => (
+                  <label key={i} className="flex items-center gap-2 cursor-pointer hover:bg-muted px-1 py-1 rounded transition-colors">
+                    <Checkbox className="h-4 w-4" />
+                    <span className={`w-2 h-2 rounded-sm rarity-${r.color}`} />
+                    <span className="text-sm flex-1">{r.label}</span>
+                    <span className="text-xs text-muted-foreground">{r.count}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-card border border-border rounded p-4">
+              <h3 className="text-sm font-semibold mb-3">Состояние</h3>
+              <div className="space-y-2">
+                {['Factory New', 'Minimal Wear', 'Field-Tested', 'Well-Worn', 'Battle-Scarred'].map((e, i) => (
+                  <label key={i} className="flex items-center gap-2 cursor-pointer hover:bg-muted px-1 py-1 rounded transition-colors">
+                    <Checkbox className="h-4 w-4" />
+                    <span className="text-sm">{e}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-card border border-border rounded p-4">
+              <h3 className="text-sm font-semibold mb-3">Особенности</h3>
+              <div className="space-y-2">
+                {['StatTrak™', 'Сувенир', 'Только со стикерами', 'Редкий паттерн'].map((f, i) => (
+                  <label key={i} className="flex items-center gap-2 cursor-pointer hover:bg-muted px-1 py-1 rounded transition-colors">
+                    <Checkbox className="h-4 w-4" />
+                    <span className="text-sm">{f}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <button className="w-full h-9 bg-muted hover:bg-border rounded text-sm font-medium transition-colors">
+              Сбросить фильтры
+            </button>
+          </aside>
+
+          <div>
+            <div className="flex items-center justify-between mb-3 text-sm">
+              <span className="text-muted-foreground">
+                Найдено <span className="text-foreground font-semibold">48 291</span> предметов
+              </span>
+              <div className="flex items-center gap-1">
+                <button className="w-8 h-8 rounded bg-card border border-primary-orange text-primary-orange flex items-center justify-center">
+                  <Icon name="LayoutGrid" size={15} />
+                </button>
+                <button className="w-8 h-8 rounded bg-card border border-border text-muted-foreground hover:text-foreground flex items-center justify-center transition-colors">
+                  <Icon name="List" size={15} />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {skins.map((s, i) => (
+                <div
+                  key={i}
+                  className="skin-card group relative bg-card border border-border rounded overflow-hidden cursor-pointer animate-fade-in"
+                  style={{ animationDelay: `${i * 0.03}s` }}
+                >
+                  <div className={`aspect-[4/3] bg-gradient-to-br ${s.bg} relative flex items-center justify-center`}>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+                    <Icon name="Crosshair" size={40} className="text-white/70 relative z-10" />
+
+                    <div className="absolute top-2 left-2 right-2 flex items-start justify-between z-10">
+                      {s.name.startsWith('★') && (
+                        <span className="px-1.5 h-5 rounded bg-black/60 backdrop-blur text-[10px] font-semibold text-yellow-400 flex items-center gap-1">
+                          ★ Редкий
+                        </span>
+                      )}
+                      <button className="ml-auto w-6 h-6 rounded bg-black/40 hover:bg-black/60 backdrop-blur flex items-center justify-center transition-colors">
+                        <Icon name="Heart" size={13} className="text-white" />
+                      </button>
+                    </div>
+
+                    <div className="absolute bottom-2 left-2 z-10 px-1.5 h-5 rounded bg-black/60 backdrop-blur text-[10px] font-mono text-white/90">
+                      fl {s.float.toFixed(3)}
+                    </div>
+
+                    <div className={`rarity-strip rarity-${s.rarity}`} />
+                  </div>
+
+                  <div className="p-2.5">
+                    <div className="text-[11px] text-muted-foreground mb-0.5">{s.exterior}</div>
+                    <div className="text-sm font-medium line-clamp-1 mb-2">{s.name}</div>
+
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="text-base font-bold leading-none">
+                          {s.price.toLocaleString('ru-RU')} ₽
+                        </div>
+                        <div className="text-[11px] font-medium mt-1" style={{ color: s.up ? 'hsl(var(--positive))' : 'hsl(var(--destructive))' }}>
+                          <Icon name={s.up ? 'TrendingUp' : 'TrendingDown'} size={11} className="inline mr-0.5" />
+                          {s.trend}
+                        </div>
+                      </div>
+                      <button className="h-7 px-3 bg-primary-orange text-background rounded text-xs font-semibold hover:opacity-90 transition-opacity">
+                        Купить
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-center gap-1 mt-6">
+              <button className="w-8 h-8 rounded bg-card border border-border flex items-center justify-center hover:border-primary-orange transition-colors">
+                <Icon name="ChevronLeft" size={15} />
+              </button>
+              {[1, 2, 3, 4, 5].map((p) => (
+                <button
+                  key={p}
+                  className={`w-8 h-8 rounded text-sm font-medium transition-colors ${
+                    p === 1
+                      ? 'bg-primary-orange text-background'
+                      : 'bg-card border border-border hover:border-primary-orange'
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+              <span className="px-2 text-muted-foreground">...</span>
+              <button className="w-10 h-8 rounded bg-card border border-border text-sm font-medium hover:border-primary-orange transition-colors">
+                1847
+              </button>
+              <button className="w-8 h-8 rounded bg-card border border-border flex items-center justify-center hover:border-primary-orange transition-colors">
+                <Icon name="ChevronRight" size={15} />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
