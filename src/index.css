@@ -373,6 +373,20 @@
     }
   }
 
+  .dragon-tail {
+    transform-origin: 380px 115px;
+    animation: tail-wave 2s ease-in-out infinite;
+  }
+  @keyframes tail-wave {
+    0%,
+    100% {
+      transform: rotate(-8deg) scaleX(1);
+    }
+    50% {
+      transform: rotate(12deg) scaleX(1.08);
+    }
+  }
+
   .dragon-breath {
     transform-origin: left center;
     animation: breath-pulse 0.9s ease-in-out infinite;

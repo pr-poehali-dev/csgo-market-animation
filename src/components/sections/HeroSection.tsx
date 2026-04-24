@@ -85,6 +85,23 @@ const HeroSection = ({ spawnSmoke }: HeroSectionProps) => {
                   <stop offset="55%" stopColor="#ff7a00" stopOpacity="0.85" />
                   <stop offset="100%" stopColor="#ff1a00" stopOpacity="0" />
                 </radialGradient>
+                <radialGradient id="scale" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stopColor="#ffe066" stopOpacity="0.9" />
+                  <stop offset="70%" stopColor="#ff5500" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#4a0000" stopOpacity="0" />
+                </radialGradient>
+                <linearGradient id="tailFeather" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ff2200" />
+                  <stop offset="40%" stopColor="#ff7a00" />
+                  <stop offset="75%" stopColor="#ffea00" />
+                  <stop offset="100%" stopColor="#ffffff" stopOpacity="0.9" />
+                </linearGradient>
+                <pattern id="scalesPattern" x="0" y="0" width="14" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 0 8 Q 3.5 2 7 8 Q 10.5 2 14 8" fill="none" stroke="#ffcc33" strokeWidth="0.8" strokeOpacity="0.55" />
+                  <path d="M -7 13 Q -3.5 7 0 13 Q 3.5 7 7 13 Q 10.5 7 14 13 Q 17.5 7 21 13" fill="none" stroke="#ff8800" strokeWidth="0.7" strokeOpacity="0.45" />
+                  <circle cx="3.5" cy="5" r="0.8" fill="#ffe066" opacity="0.6" />
+                  <circle cx="10.5" cy="5" r="0.8" fill="#ffe066" opacity="0.6" />
+                </pattern>
                 <filter id="dragonGlow">
                   <feGaussianBlur stdDeviation="3" result="b" />
                   <feMerge>
@@ -95,10 +112,43 @@ const HeroSection = ({ spawnSmoke }: HeroSectionProps) => {
               </defs>
 
               <g className="dragon-body" filter="url(#dragonGlow)">
+                {/* FEATHERED FIERY TAIL */}
+                <g className="dragon-tail">
+                  <path d="M 380 110 Q 420 95 440 70 Q 425 105 418 108 Z" fill="url(#tailFeather)" opacity="0.9" />
+                  <path d="M 382 115 Q 430 115 458 105 Q 430 120 418 122 Z" fill="url(#tailFeather)" opacity="0.95" />
+                  <path d="M 380 122 Q 425 135 448 150 Q 420 132 412 128 Z" fill="url(#tailFeather)" opacity="0.9" />
+                  <path d="M 378 128 Q 405 145 415 170 Q 395 145 390 135 Z" fill="url(#tailFeather)" opacity="0.8" />
+                  <path d="M 385 110 Q 412 88 418 62 Q 410 92 402 106 Z" fill="url(#tailFeather)" opacity="0.75" />
+                  {/* feather spines */}
+                  <path d="M 380 110 Q 410 100 435 85" stroke="#fff200" strokeWidth="1" fill="none" opacity="0.7" />
+                  <path d="M 382 118 Q 415 120 445 112" stroke="#fff200" strokeWidth="1" fill="none" opacity="0.7" />
+                  <path d="M 380 124 Q 408 132 430 148" stroke="#fff200" strokeWidth="1" fill="none" opacity="0.7" />
+                </g>
+
+                {/* body base */}
                 <path
                   d="M 380 110 Q 340 90 300 115 Q 260 140 220 110 Q 180 80 140 115 Q 110 140 85 115 L 70 100 Q 55 105 50 120 Q 55 130 75 128 Q 100 155 140 135 Q 180 110 220 135 Q 260 160 300 135 Q 340 115 385 130 Z"
                   fill="url(#dragonBody)"
                 />
+                {/* scales overlay */}
+                <path
+                  d="M 380 110 Q 340 90 300 115 Q 260 140 220 110 Q 180 80 140 115 Q 110 140 85 115 L 70 100 Q 55 105 50 120 Q 55 130 75 128 Q 100 155 140 135 Q 180 110 220 135 Q 260 160 300 135 Q 340 115 385 130 Z"
+                  fill="url(#scalesPattern)"
+                  opacity="0.85"
+                />
+                {/* individual shining scales */}
+                {[
+                  { cx: 105, cy: 122 }, { cx: 130, cy: 128 }, { cx: 155, cy: 120 },
+                  { cx: 180, cy: 125 }, { cx: 205, cy: 122 }, { cx: 230, cy: 128 },
+                  { cx: 255, cy: 125 }, { cx: 280, cy: 130 }, { cx: 305, cy: 125 },
+                  { cx: 330, cy: 128 }, { cx: 355, cy: 122 },
+                  { cx: 115, cy: 138 }, { cx: 145, cy: 142 }, { cx: 195, cy: 145 },
+                  { cx: 245, cy: 148 }, { cx: 295, cy: 145 }, { cx: 345, cy: 138 },
+                ].map((s, i) => (
+                  <ellipse key={i} cx={s.cx} cy={s.cy} rx="5" ry="3.5" fill="url(#scale)" />
+                ))}
+
+                {/* spikes */}
                 <path
                   d="M 100 115 L 108 95 L 115 115 Z M 140 108 L 148 85 L 156 108 Z M 180 112 L 188 90 L 195 112 Z M 220 108 L 228 82 L 236 108 Z M 260 113 L 268 92 L 275 113 Z M 300 110 L 308 87 L 315 110 Z M 340 115 L 348 95 L 355 115 Z"
                   fill="#ff3b00"
@@ -114,9 +164,15 @@ const HeroSection = ({ spawnSmoke }: HeroSectionProps) => {
                   d="M 250 100 Q 280 25 340 15 Q 305 65 300 105 Q 280 90 250 100 Z"
                   fill="url(#dragonWing)"
                 />
+                {/* head */}
                 <path
                   d="M 60 115 Q 30 105 15 115 Q 8 125 18 138 Q 35 145 55 135 Q 68 130 75 120 Z"
                   fill="url(#dragonBody)"
+                />
+                <path
+                  d="M 60 115 Q 30 105 15 115 Q 8 125 18 138 Q 35 145 55 135 Q 68 130 75 120 Z"
+                  fill="url(#scalesPattern)"
+                  opacity="0.7"
                 />
                 <path d="M 45 108 L 38 88 L 52 102 Z" fill="#ff5500" />
                 <circle cx="35" cy="120" r="3" fill="#ffff00" />
