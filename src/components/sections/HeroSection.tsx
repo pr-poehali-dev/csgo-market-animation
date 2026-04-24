@@ -41,67 +41,95 @@ const HeroSection = ({ spawnSmoke }: HeroSectionProps) => {
         <div className="absolute inset-0 grid-bg opacity-40" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
 
-        {/* BULLET TRACERS */}
-        <div className="bullets-layer">
-          <div className="bullet" style={{ ['--y' as string]: '18%', ['--speed' as string]: '1.1s', ['--delay' as string]: '0s', ['--angle' as string]: '-2deg' } as React.CSSProperties} />
-          <div className="bullet" style={{ ['--y' as string]: '32%', ['--speed' as string]: '1.3s', ['--delay' as string]: '0.25s', ['--angle' as string]: '1deg' } as React.CSSProperties} />
-          <div className="bullet" style={{ ['--y' as string]: '47%', ['--speed' as string]: '0.9s', ['--delay' as string]: '0.5s', ['--angle' as string]: '-1deg' } as React.CSSProperties} />
-          <div className="bullet" style={{ ['--y' as string]: '63%', ['--speed' as string]: '1.5s', ['--delay' as string]: '0.8s', ['--angle' as string]: '2deg' } as React.CSSProperties} />
-          <div className="bullet" style={{ ['--y' as string]: '78%', ['--speed' as string]: '1.2s', ['--delay' as string]: '1.1s', ['--angle' as string]: '-3deg' } as React.CSSProperties} />
-          <div className="bullet" style={{ ['--y' as string]: '88%', ['--speed' as string]: '1.0s', ['--delay' as string]: '1.4s', ['--angle' as string]: '0deg' } as React.CSSProperties} />
+        {/* FIRE DRAGON */}
+        <div className="dragon-layer">
+          {[
+            { x: '8%', delay: '0s', dur: '4s', dx: '60px' },
+            { x: '18%', delay: '1.2s', dur: '5s', dx: '-40px' },
+            { x: '32%', delay: '0.6s', dur: '3.5s', dx: '80px' },
+            { x: '46%', delay: '2s', dur: '4.5s', dx: '-30px' },
+            { x: '58%', delay: '0.3s', dur: '3.8s', dx: '50px' },
+            { x: '70%', delay: '1.8s', dur: '5.2s', dx: '-70px' },
+            { x: '84%', delay: '0.9s', dur: '4.2s', dx: '40px' },
+            { x: '92%', delay: '2.5s', dur: '4.8s', dx: '-50px' },
+          ].map((e, i) => (
+            <div
+              key={i}
+              className="ember"
+              style={{
+                ['--x' as string]: e.x,
+                ['--delay' as string]: e.delay,
+                ['--dur' as string]: e.dur,
+                ['--dx' as string]: e.dx,
+              } as React.CSSProperties}
+            />
+          ))}
 
-          {/* AK-47 silhouette + muzzle flash (left edge) */}
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block pointer-events-none">
-            <div className="relative">
-              {/* AK silhouette */}
-              <svg width="240" height="120" viewBox="0 0 240 120" className="opacity-80 drop-shadow-[0_0_20px_rgba(255,120,30,0.5)]">
-                <defs>
-                  <linearGradient id="akGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1a1a20" />
-                    <stop offset="50%" stopColor="#2a2a35" />
-                    <stop offset="100%" stopColor="#0a0a10" />
-                  </linearGradient>
-                  <linearGradient id="woodGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#6b3410" />
-                    <stop offset="100%" stopColor="#3d1d08" />
-                  </linearGradient>
-                </defs>
-                {/* stock */}
-                <path d="M0 58 L40 50 L50 70 L10 78 Z" fill="url(#woodGrad)" />
-                <rect x="38" y="52" width="30" height="18" fill="url(#akGrad)" />
-                {/* body */}
-                <rect x="60" y="48" width="80" height="24" fill="url(#akGrad)" />
-                {/* magazine */}
-                <path d="M85 72 L115 72 L118 100 L88 102 Z" fill="url(#akGrad)" />
-                <path d="M88 78 L115 78 L116 88 L89 89 Z" fill="#000" opacity="0.4" />
-                {/* grip */}
-                <path d="M118 60 L135 60 L130 88 L120 88 Z" fill="url(#woodGrad)" />
-                {/* barrel */}
-                <rect x="140" y="54" width="70" height="10" fill="url(#akGrad)" />
-                {/* gas tube */}
-                <rect x="140" y="46" width="55" height="6" fill="url(#akGrad)" />
-                {/* front sight */}
-                <rect x="200" y="44" width="4" height="16" fill="#15151a" />
-                {/* muzzle */}
-                <rect x="210" y="52" width="12" height="14" fill="#0a0a10" />
-                <rect x="222" y="55" width="6" height="8" fill="#000" />
-              </svg>
+          <div className="dragon">
+            <svg viewBox="0 0 420 220" width="420" height="220">
+              <defs>
+                <linearGradient id="dragonBody" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ffea00" />
+                  <stop offset="30%" stopColor="#ff9500" />
+                  <stop offset="65%" stopColor="#ff3b00" />
+                  <stop offset="100%" stopColor="#8b0000" />
+                </linearGradient>
+                <linearGradient id="dragonWing" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ff6a00" stopOpacity="0.95" />
+                  <stop offset="60%" stopColor="#ff2200" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#4a0000" stopOpacity="0.6" />
+                </linearGradient>
+                <radialGradient id="dragonBreath" cx="100%" cy="50%" r="90%">
+                  <stop offset="0%" stopColor="#ffffff" />
+                  <stop offset="20%" stopColor="#fff200" />
+                  <stop offset="55%" stopColor="#ff7a00" stopOpacity="0.85" />
+                  <stop offset="100%" stopColor="#ff1a00" stopOpacity="0" />
+                </radialGradient>
+                <filter id="dragonGlow">
+                  <feGaussianBlur stdDeviation="3" result="b" />
+                  <feMerge>
+                    <feMergeNode in="b" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-              {/* Muzzle flash */}
-              <div className="muzzle-flash" style={{ left: '218px', top: '40px' }} />
-              <div className="muzzle-flash" style={{ left: '225px', top: '45px', animationDelay: '0.08s', width: '60px', height: '60px' }} />
+              <g className="dragon-body" filter="url(#dragonGlow)">
+                <path
+                  d="M 380 110 Q 340 90 300 115 Q 260 140 220 110 Q 180 80 140 115 Q 110 140 85 115 L 70 100 Q 55 105 50 120 Q 55 130 75 128 Q 100 155 140 135 Q 180 110 220 135 Q 260 160 300 135 Q 340 115 385 130 Z"
+                  fill="url(#dragonBody)"
+                />
+                <path
+                  d="M 100 115 L 108 95 L 115 115 Z M 140 108 L 148 85 L 156 108 Z M 180 112 L 188 90 L 195 112 Z M 220 108 L 228 82 L 236 108 Z M 260 113 L 268 92 L 275 113 Z M 300 110 L 308 87 L 315 110 Z M 340 115 L 348 95 L 355 115 Z"
+                  fill="#ff3b00"
+                />
+                <path
+                  className="dragon-wing dragon-wing-back"
+                  d="M 230 100 Q 200 40 160 30 Q 190 70 180 100 Q 200 85 230 100 Z"
+                  fill="url(#dragonWing)"
+                  opacity="0.75"
+                />
+                <path
+                  className="dragon-wing"
+                  d="M 250 100 Q 280 25 340 15 Q 305 65 300 105 Q 280 90 250 100 Z"
+                  fill="url(#dragonWing)"
+                />
+                <path
+                  d="M 60 115 Q 30 105 15 115 Q 8 125 18 138 Q 35 145 55 135 Q 68 130 75 120 Z"
+                  fill="url(#dragonBody)"
+                />
+                <path d="M 45 108 L 38 88 L 52 102 Z" fill="#ff5500" />
+                <circle cx="35" cy="120" r="3" fill="#ffff00" />
+                <circle cx="35" cy="120" r="1.2" fill="#000" />
+                <path d="M 15 128 Q 8 140 20 148 Q 35 148 45 138 Z" fill="#8b0000" />
+              </g>
 
-              {/* Smoke */}
-              <div className="smoke" style={{ left: '200px', top: '20px', animationDelay: '0s' }} />
-              <div className="smoke" style={{ left: '190px', top: '15px', animationDelay: '0.7s' }} />
-              <div className="smoke" style={{ left: '210px', top: '30px', animationDelay: '1.3s' }} />
-
-              {/* Shells */}
-              <div className="shell" style={{ left: '110px', top: '45px', animationDelay: '0s' }} />
-              <div className="shell" style={{ left: '115px', top: '45px', animationDelay: '0.4s' }} />
-              <div className="shell" style={{ left: '105px', top: '45px', animationDelay: '0.9s' }} />
-              <div className="shell" style={{ left: '112px', top: '45px', animationDelay: '1.3s' }} />
-            </div>
+              <g className="dragon-breath" transform="translate(15 134)">
+                <ellipse cx="-30" cy="0" rx="60" ry="18" fill="url(#dragonBreath)" />
+                <ellipse cx="-55" cy="-2" rx="40" ry="10" fill="url(#dragonBreath)" opacity="0.85" />
+                <ellipse cx="-75" cy="2" rx="28" ry="7" fill="url(#dragonBreath)" opacity="0.6" />
+              </g>
+            </svg>
           </div>
         </div>
 
