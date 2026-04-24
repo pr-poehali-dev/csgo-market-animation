@@ -23,6 +23,44 @@ const history = [
 const Index = () => {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
 
+  const spawnSmoke = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const href = target.getAttribute('href') || '#';
+
+    const burst = document.createElement('div');
+    burst.className = 'smoke-burst';
+    burst.style.left = `${cx}px`;
+    burst.style.top = `${cy}px`;
+
+    const puffCount = 14;
+    for (let i = 0; i < puffCount; i++) {
+      const puff = document.createElement('div');
+      const variant = i % 3 === 0 ? 'p2' : i % 5 === 0 ? 'p3' : '';
+      puff.className = `puff ${variant}`;
+      const angle = (Math.PI * 2 * i) / puffCount + Math.random() * 0.5;
+      const dist = 60 + Math.random() * 90;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist - 30;
+      const s = 2.2 + Math.random() * 2;
+      puff.style.setProperty('--tx', `${tx}px`);
+      puff.style.setProperty('--ty', `${ty}px`);
+      puff.style.setProperty('--s', `${s}`);
+      puff.style.animationDelay = `${Math.random() * 0.15}s`;
+      burst.appendChild(puff);
+    }
+
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 1400);
+
+    setTimeout(() => {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    }, 280);
+  };
+
   return (
     <div className="min-h-screen text-foreground">
       {/* NAV */}
@@ -40,11 +78,11 @@ const Index = () => {
             </div>
           </a>
           <div className="hidden md:flex items-center gap-8 font-display text-sm uppercase tracking-widest">
-            <a href="#market" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">Купить</a>
-            <a href="#sell" target="_blank" rel="noopener noreferrer" className="hover:text-neon-magenta transition-colors">Продать</a>
-            <a href="#history" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">История</a>
-            <a href="#support" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">Поддержка</a>
-            <a href="#faq" target="_blank" rel="noopener noreferrer" className="hover:text-neon-cyan transition-colors">FAQ</a>
+            <a href="#market" onClick={spawnSmoke} className="hover:text-neon-cyan transition-colors cursor-pointer">Купить</a>
+            <a href="#sell" onClick={spawnSmoke} className="hover:text-neon-magenta transition-colors cursor-pointer">Продать</a>
+            <a href="#history" onClick={spawnSmoke} className="hover:text-neon-cyan transition-colors cursor-pointer">История</a>
+            <a href="#support" onClick={spawnSmoke} className="hover:text-neon-cyan transition-colors cursor-pointer">Поддержка</a>
+            <a href="#faq" onClick={spawnSmoke} className="hover:text-neon-cyan transition-colors cursor-pointer">FAQ</a>
           </div>
           <Button className="bg-primary text-background hover:bg-primary/90 font-display uppercase tracking-wider clip-corner neon-glow-cyan">
             <Icon name="LogIn" size={16} className="mr-2" />
